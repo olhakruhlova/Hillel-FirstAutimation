@@ -8,8 +8,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.LoginPage;
-import pages.MailinatorPage;
-import pages.SentPage;
+import pages.MailinatorInboxPage;
 import testdata.Email;
 import testdata.User;
 
@@ -33,34 +32,31 @@ public class UkrNetTest {
         HomePage homePage = new HomePage(driver);
         homePage.waitUntilLoaded();
         // Assert.assertTrue(driver.getCurrentUrl().contains(homePage.getPageUrl()),"Url isn't as expected");
-        // не має сенсу в цій перевірки тому що ми юзаємо wait
+        // не має сенсу в цій перевірки томущо ми юзаємо wait
 
         Email email = new Email("olha.kruhlova@mailinator.com", "qwerty", "test body");
         homePage.clickWriteLetter();
         homePage.writeLetter(email);
         homePage.sendLetter();
+        Assert.assertTrue(homePage.getTextLetterIsSend("Ваш лист надіслано"));
 
-        SentPage sentPage = new SentPage(driver);
-        sentPage.waitUntilLoaded();
-        sentPage.confirmationOfSendLetter();
-
-        MailinatorPage mailinatorPage = new MailinatorPage(driver);
-        mailinatorPage.navigate();
-        mailinatorPage.waitUntilLoaded();
+        MailinatorInboxPage mailinatorInboxPage = new MailinatorInboxPage(driver);
+        mailinatorInboxPage.navigate();
+        mailinatorInboxPage.waitUntilLoaded();
 
         Email emailWithoutDomen = new Email("olha.kruhlova");
-        mailinatorPage.enterEmail(emailWithoutDomen);
+        mailinatorInboxPage.goToInbox(emailWithoutDomen);
+        mailinatorInboxPage.waitUntilJsIsReady();
+        mailinatorInboxPage.openLastLetter();
 
-        //mailinatorPage.waitUntilLetterDisplayed();
-        Assert.assertTrue(mailinatorPage.letterExist(), "Sent letter isn't found");
-        mailinatorPage.openLetter();
-
-
-        Assert.assertTrue(mailinatorPage.verifyEmail(email, user), "Email body isn't correct");
+        mailinatorInboxPage.waitUntilInformAboutLetterIsDisplayed();
+        Assert.assertEquals(email.getEmailBody(), mailinatorInboxPage.getLetterBody(), "Letter with incorrect body");
+        Assert.assertEquals(user.getLogin(), mailinatorInboxPage.getFromUser(), "Letter from not correct user");
+        Assert.assertEquals(email.getEmailSubject(), mailinatorInboxPage.getLetterSubject(), "Letter with incorrect subject");
     }
 
     @AfterMethod
-    public void tearmDown() {
+    public void tearDown() {
         driver.close();
     }
 }
