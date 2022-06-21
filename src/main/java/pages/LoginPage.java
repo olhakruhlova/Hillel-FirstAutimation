@@ -1,13 +1,17 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import testdata.User;
 
 public class LoginPage extends BasePage {
-    private By loginField = By.name("login");
-    private By passwordField = By.cssSelector("[name='password']");
-    private By submitButton = By.cssSelector("[type='submit']");
+    @FindBy(name = "login")
+    private WebElement loginFieldElement;
+    @FindBy(css = "[name='password']")
+    private WebElement passwordFieldElement;
+    @FindBy(css = "[type='submit']")
+    private WebElement submitButtonElement;
     // input[name='login']
     //.root>[name='login'] приямий нащадок
     //.root [name='login'] нащадок на любому вкладенні
@@ -18,9 +22,9 @@ public class LoginPage extends BasePage {
     }
 
     public void login(User user) {
-        driver.findElement(loginField).sendKeys(user.getLogin());
-        driver.findElement(passwordField).sendKeys(user.getPassword());
-        driver.findElement(submitButton).click();
+        loginFieldElement.sendKeys(user.getLogin());
+        passwordFieldElement.sendKeys(user.getPassword());
+        submitButtonElement.click();
     }
 
 }
