@@ -1,3 +1,5 @@
+package UI.testleaf;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,7 +10,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
-  public class TestNGInteractWithCheckboxes {
+
+public class TestNGInteractWithCheckboxes {
     private String baseUrl = "http://www.leafground.com/pages/checkbox.html";
     private By languagesJavaInputLocator = By.xpath("//label[text() = 'Select the languages that you know?']/following-sibling::input");
     private By confirmSeleniumInputLocator = By.xpath("//label[text() = 'Confirm Selenium is checked']/following-sibling::input");
@@ -50,13 +53,40 @@ import java.util.List;
         Assert.assertFalse(deSelectOnlyInput.isSelected(), "Checkbox isn't unchecked");
     }
 
+
+
+    // РОБОТА ЗІ STREAM
     @Test
     public void selectAllCheckboxesInputTest() {
         for (WebElement input : selectAllCheckboxesInputsList) {
             input.click();
             Assert.assertTrue(input.isSelected(),"Some of the checkbox isn't checked");
         }
-    }
+
+        // додаємо перевірку що всі елементи вибрані
+        Assert.assertTrue(selectAllCheckboxesInputsList.stream().allMatch( element -> element.isSelected()));
+        // простіше
+        Assert.assertTrue(selectAllCheckboxesInputsList.stream().allMatch(WebElement::isSelected));
+
+        // теж саме зі stream
+//        selectAllCheckboxesInputsList.stream().forEach(new Consumer<WebElement>() {
+//            @Override
+//            public void accept(WebElement webElement) {
+//                webElement.click();
+//            }
+//        });
+//        // теж саме через лямбду
+//        selectAllCheckboxesInputsList.stream().forEach((WebElement element) -> element.click());
+//
+//        // теж кородше
+//        selectAllCheckboxesInputsList.stream().forEach(element -> element.click());
+//
+//        // ще кородше (квадраточіє) - метод референс
+//        selectAllCheckboxesInputsList.stream().forEach(WebElement::click);
+//
+//        //можна навіть без стріма (фанкшенал стайл)
+//        selectAllCheckboxesInputsList.forEach(WebElement::click);
+ }
 
     @AfterMethod
     public void tearmDown() {
