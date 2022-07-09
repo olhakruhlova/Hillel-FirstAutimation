@@ -5,6 +5,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pages.google.GoogleHomePage;
 import pages.google.GoogleResultPage;
+import pages.google.SelenideBlogPage;
 import pages.google.SelenideHomePage;
 
 import static com.codeborne.selenide.Selenide.open;
@@ -16,7 +17,7 @@ public class GoogleTest {
     @BeforeClass
     public void setUp() {
         //Налаштування
-        Configuration.savePageSource = true;
+        Configuration.savePageSource = false;
         Configuration.browserSize = "1920x600";
         Configuration.timeout = 5000; //default value 4000;
     }
@@ -44,7 +45,14 @@ public class GoogleTest {
                 .openFirstLink();
 
         SelenideHomePage selenideHomePage = new SelenideHomePage();
-        selenideHomePage.findDonateElement();
+        selenideHomePage.findDonateElement()
+                .clickBlogTab();
+
+        SelenideBlogPage selenideBlogPage = new SelenideBlogPage();
+        selenideBlogPage.fingBlogBanner();
+
+
+
 
         //взяти вікно та його використовувати
 //        WebDriverRunner.getWebDriver();//взяти вікно та його використовувати
