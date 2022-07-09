@@ -1,26 +1,15 @@
-package ukrnet;
+package UI.ukrnet;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import UI.BaseTest;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pages.HomePage;
-import pages.LoginPage;
-import pages.MailinatorInboxPage;
+import pages.mailinator.MailinatorInboxPage;
+import pages.ukrnet.HomePage;
+import pages.ukrnet.LoginPage;
 import testdata.Email;
 import testdata.User;
 
-public class UkrNetTest {
-    private WebDriver driver;
-
-    @BeforeMethod
-    public void setUp() {
-        System.setProperty("selenium.chrome.driver", "chromedriver.exe");
-        driver = new ChromeDriver();
-        // driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
-    }
+public class UkrNetTest extends BaseTest {
 
     @Test
     private void sendEmailToMailinatorTest() {
@@ -49,14 +38,9 @@ public class UkrNetTest {
         mailinatorInboxPage.waitUntilJsIsReady();
         mailinatorInboxPage.openLastLetter();
 
-        mailinatorInboxPage.waitUntilInformAboutLetterIsDisplayed();
+        //mailinatorInboxPage.waitUntilInformAboutLetterIsDisplayed();
         Assert.assertEquals(email.getEmailBody(), mailinatorInboxPage.getLetterBody(), "Letter with incorrect body");
         Assert.assertEquals(user.getLogin(), mailinatorInboxPage.getFromUser(), "Letter from not correct user");
         Assert.assertEquals(email.getEmailSubject(), mailinatorInboxPage.getLetterSubject(), "Letter with incorrect subject");
-    }
-
-    @AfterMethod
-    public void tearDown() {
-        driver.close();
     }
 }

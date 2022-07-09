@@ -1,3 +1,5 @@
+package UI.testleaf;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,7 +20,6 @@ public class TestNGWorkWithEditFielda {
     private By getTextInputLocaor = By.xpath("//label[text()='Get default text entered']/following-sibling::input");
     private By clearTextLocator = By.xpath("//label[text()='Clear the text']/following-sibling::input");
     private By disabledInputLocator = By.xpath("//label[text()='Confirm that edit field is disabled']/following-sibling::input");
-
     private WebDriver driver;
     private WebElement emailInput;
     private WebElement appendInput;

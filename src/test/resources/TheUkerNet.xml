@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="Regression suite">
+    <groups>
+        <run>
+            <exclude name="exlude me"/>
+        </run>
+    </groups>
+    <test name="Ukr net">
+        <classes>
+            <class name="UI.ukrnet.UkrNetTest" />
+        </classes>
+    </test>
+    <test name="TestLeaf">
+        <packages>
+            <package name="UI.testleaf" />
+        </packages>
+    </test>
+    </suite>

@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="Regression suite">
+    <groups>
+        <run>
+            <exclude name="exlude me"/>
+        </run>
+    </groups>
+   <suite-files>
+       <suite-file path="TheInternetSuit.xml"/>
+       <suite-file path="TheUkerNet.xml"/>
+   </suite-files>
+</suite>

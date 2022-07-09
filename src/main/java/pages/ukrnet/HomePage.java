@@ -1,11 +1,14 @@
-package pages;
+package pages.ukrnet;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.BasePage;
 import testdata.Email;
+
+import java.time.Duration;
 
 public class HomePage extends BasePage {
 
@@ -27,12 +30,15 @@ public class HomePage extends BasePage {
     public HomePage(WebDriver driver) {
         super(driver);
         pageUrl = "https://mail.ukr.net/desktop";
-        PageFactory.initElements(driver, this);
     }
 
     public void clickWriteLetter() {
-        webDriverWait.until(ExpectedConditions.visibilityOf(writeLetterButtonElement));
-        writeLetterButtonElement.click();
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions
+                                .elementToBeClickable(writeLetterButtonElement)).click();
+        // -> експлісіт вейт (чемаємо щоб елемент був клікабельним)
+        //webDriverWait.until(ExpectedConditions.visibilityOf(writeLetterButtonElement));
+        //writeLetterButtonElement.click(); - не порідний окремий рядок, переюзала це в попередньому рядку
     }
 
     public void writeLetter(Email email) {
