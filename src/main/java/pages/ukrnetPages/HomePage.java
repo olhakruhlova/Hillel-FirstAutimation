@@ -1,4 +1,4 @@
-package pages.ukrnet;
+package pages.ukrnetPages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,7 +7,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pages.BasePage;
 import testdata.Email;
-
 public class HomePage extends BasePage {
 
     @FindBy(css = ".primary.compose") //рефлексія

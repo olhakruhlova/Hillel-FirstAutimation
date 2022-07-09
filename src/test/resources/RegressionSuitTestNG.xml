@@ -9,5 +9,6 @@
    <suite-files>
        <suite-file path="TheInternetSuit.xml"/>
        <suite-file path="TheUkerNet.xml"/>
+       <suite-file path="TheTestLeaf.xml"/>
    </suite-files>
 </suite>
