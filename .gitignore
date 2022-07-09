@@ -4,3 +4,4 @@ target/
 test-results
 test-output
 *.iml
+build/

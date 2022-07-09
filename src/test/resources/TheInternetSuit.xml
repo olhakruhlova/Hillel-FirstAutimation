@@ -1,6 +1,6 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 
-<suite name="Regression suite">
+<suite name="TheInternet suite">
     <groups>
         <run>
             <exclude name="exlude me"/>

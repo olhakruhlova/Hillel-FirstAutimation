@@ -2,6 +2,7 @@ package UI.ukrnet;
 
 import UI.BaseTest;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 import pages.mailinator.MailinatorInboxPage;
 import pages.ukrnet.HomePage;
@@ -42,5 +43,10 @@ public class UkrNetTest extends BaseTest {
         Assert.assertEquals(email.getEmailBody(), mailinatorInboxPage.getLetterBody(), "Letter with incorrect body");
         Assert.assertEquals(user.getLogin(), mailinatorInboxPage.getFromUser(), "Letter from not correct user");
         Assert.assertEquals(email.getEmailSubject(), mailinatorInboxPage.getLetterSubject(), "Letter with incorrect subject");
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        driver.close();
     }
 }
