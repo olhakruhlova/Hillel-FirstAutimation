@@ -2,6 +2,7 @@ package API.restassured;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dto.PetDto;
+import dto.PetOrderDto;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.path.json.JsonPath;
@@ -23,6 +24,7 @@ public class RestAssuredExample {
                         .addHeader("Content-Type", "application/json")
                         .build();
     }
+    private Long petId;
 
     @Test
     @SneakyThrows
@@ -33,7 +35,7 @@ public class RestAssuredExample {
                 .build();
 
         //request creating pet
-        String petId = RestAssured
+       petId = RestAssured
                 //секція підготовки запиту
                 .given()
                 .spec(requestSpecification)
@@ -48,7 +50,7 @@ public class RestAssuredExample {
                 .extract()
                 .body()
                 .jsonPath()
-                .getString("id");
+                .getLong("id");
 
         //Request getting pet
         JsonPath jsonResponsePet = RestAssured
@@ -69,5 +71,52 @@ public class RestAssuredExample {
 
         Assert.assertEquals(requestPet.getName(), responsePet.getName());
         Assert.assertEquals(requestPet.getStatus(), responsePet.getStatus());
+
+    }
+
+    @Test(dependsOnMethods = "createPet")
+    @SneakyThrows
+    public void createOrderForPetPurchase() {
+        PetOrderDto requestOrderForPetStore = PetOrderDto.builder()
+                .id(1)
+                .petId(petId)
+                .quantity(1)
+                .shipDate("2022-07-09T15:36:13.584Z")
+                .status("placed")
+                .complete(true)
+                .build();
+
+        Long orderID = RestAssured
+                .given()
+                .spec(requestSpecification)
+                .body(new ObjectMapper().writeValueAsString(requestOrderForPetStore))
+                .when()
+                .post("/store/order" )
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .jsonPath()
+                .getLong("id");
+
+        JsonPath jsonResponseOrderPet = RestAssured
+                .given()
+                .spec(requestSpecification)
+                .when()
+                .get("/store/order/" + orderID)
+                .then()
+                .statusCode(200)
+                .assertThat()
+                .extract()
+                .body()
+                .jsonPath();
+
+        PetOrderDto responsOrderForPetStore = new ObjectMapper().readValue(jsonResponseOrderPet.prettify(), PetOrderDto.class);
+
+        Assert.assertEquals(requestOrderForPetStore.getQuantity(), responsOrderForPetStore.getQuantity());
+        Assert.assertEquals(requestOrderForPetStore.getStatus(), responsOrderForPetStore.getStatus());
+        Assert.assertEquals(requestOrderForPetStore.getPetId(), responsOrderForPetStore.getPetId());
+
+
     }
 }
