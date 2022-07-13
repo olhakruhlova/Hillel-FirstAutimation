@@ -22,7 +22,6 @@ public abstract class BasePage {
         PageFactory.initElements(driver, this);
     }
     public BasePage() {
-        // для того щоб заюзати пейдж факторі і селенід
         PageFactory.initElements(WebDriverRunner.getWebDriver(), this);
     }
 

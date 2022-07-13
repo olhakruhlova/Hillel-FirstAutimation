@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Selenide.$;
 public class GoogleHomePage extends BasePage {
     private static final By SEARCH_FIELD = By.cssSelector("[name = 'q']");
 
-    // щоб повертати послідовністьв викликів - застосовуємо патерн chain of responsibility
+    // щоб повертати послідовністьв викликів - застосовуємо патерн chain of invocations
     public GoogleHomePage waitUntilSearchFieldDisplayed() {
         $(SEARCH_FIELD).shouldBe(visible);
         return this;
